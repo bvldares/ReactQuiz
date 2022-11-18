@@ -15,6 +15,7 @@ export default function App(){
   
 
 
+
   React.useEffect(()=>{  //START USE EFFECT
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
     .then(res=>res.json())
@@ -25,10 +26,11 @@ export default function App(){
         questionsObj.push({
           quest: question.question,
           correctAnswer : question.correct_answer,
-          answerOne: question.correct_answer,
-          answerTwo: question.incorrect_answers[0],
-          answerThree: question.incorrect_answers[1],
-          answerFour: question.incorrect_answers[2],
+          answers : [
+            {answer: question.correct_answer, isSelected: false},
+            {answer: question.incorrect_answers[0], isSelected: false},
+            {answer: question.incorrect_answers[1], isSelected: false},
+            {answer: question.incorrect_answers[2], isSelected: false} ],
           isHeld : false,
           selectedAnswer: "",
           id: nanoid()
@@ -39,25 +41,16 @@ export default function App(){
 
   },[]) //End useEffect S
 
+  function handleChange(e){
 
-  function handleChange(event){
-    setQuestions(prevState => prevState.map(quest=>{
-      return quest.id === event.target.name? 
-        { ...quest, selectedAnswer: event.target.value, isHeld:!quest.isHeld}:
-        quest
-    }))
   }
-  
-  
+
   //Question component creation for each element inside the array 
   const questionComponent = questions.map(question=>{
     return ( 
         <Questions 
         title = {question.quest}
-        firstAnswer = {question.answerOne}
-        secondAnswer = {question.answerTwo}
-        thirdAnswer = {question.answerThree}
-        fourthAnswer = {question.answerFour}
+        answers = {question.answers}
         key = {question.id}
         isHeld = {question.isHeld}
         id = {question.id}
