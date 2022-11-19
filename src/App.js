@@ -32,7 +32,8 @@ export default function App(){
             {answer: question.correct_answer, isSelected: false},
             {answer: question.incorrect_answers[0], isSelected: false},
             {answer: question.incorrect_answers[1], isSelected: false},
-            {answer: question.incorrect_answers[2], isSelected: false} ],
+            {answer: question.incorrect_answers[2], isSelected: false} 
+          ].sort(()=> Math.random() -0.5),
           isHeld : false,
           selectedAnswer: "",
           id: nanoid()
@@ -113,7 +114,7 @@ export default function App(){
       { !newGame ? <Home startGame={startGame}/>: 
       <div className="trivia-wrapper" onSubmit={elaborateQuestions}>
         {questionComponent}
-          <div>
+          <div className="result-container">
             {checker && <p className="result">Correct answers: {questionAnswered}/5</p>}
             <button className="check-answers" onClick={checker? gameOver: elaborateQuestions}>{checker? "New Game" : "Check Answers"}</button>
           </div>

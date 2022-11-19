@@ -164,9 +164,13 @@ hr{
   margin-bottom: .5em;
 }
 
-
-.checked{
-  background-color: #4D5B9E;
-  color: #fff;
+.result-container{
+  display: flex;
+  align-items: center;
 }
 
+.result{
+  margin-right: 1em;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
