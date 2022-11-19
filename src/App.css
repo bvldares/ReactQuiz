@@ -81,7 +81,12 @@ body{
 }
 
 main{
+  display: flex;
   min-height: 100vh;
+}
+
+form{
+
   display: flex;
   max-width: 100%;
 }
@@ -103,8 +108,8 @@ main{
 }
 
 .question-container{ 
-  margin: auto;
-  width: 80%;
+  margin:0;
+  width: 94%;
 }
 
 .question-title{
@@ -112,11 +117,22 @@ main{
   inline-size: 100%;
 }
 
+.answer-img{
+  
+  width:1.5rem;
+  object-fit: cover;
+}
+
 .answers-container{
   display: flex;
   margin: .5em 0;
   flex-wrap: wrap;
 }
+
+input[type=radio]{
+  display: none;
+}
+
 
 label{
   border: 1px solid #4D5B9E;
@@ -136,7 +152,7 @@ hr{
 
 .trivia-wrapper{
   padding: 1em ;
-  max-width: 100%;
+  max-width: 80%;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -147,3 +163,10 @@ hr{
   margin-top: 1em;
   margin-bottom: .5em;
 }
+
+
+.checked{
+  background-color: #4D5B9E;
+  color: #fff;
+}
+

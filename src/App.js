@@ -9,6 +9,8 @@ export default function App(){
 
   const [newGame, setNewGame] = React.useState(false)
   const [questions, setQuestions] = React.useState([])
+  const [questionAnswered, setQuestionAnswered] = React.useState(0)
+  const [checker, setChecker] = React.useState(false)
 
   //state toggle function for start game
   const startGame = () =>setNewGame(prevState=>!prevState)
@@ -34,16 +36,39 @@ export default function App(){
           isHeld : false,
           selectedAnswer: "",
           id: nanoid()
-        }) })
+        }) 
+    })
       
       return setQuestions(questionsObj)
     })
 
   },[]) //End useEffect S
 
-  function handleChange(e){
 
+
+  function setAnswer(event){
+    setQuestions(prevState => prevState.map(domanda=>{
+      if(domanda.id === event.target.name){
+        setQuestionAnswered(prevState=> prevState +1)
+       return {
+        ...domanda, 
+        selectedAnswer: event.target.value,
+        answers : domanda.answers.map(answer=>{
+         return answer.answer === event.target.value ? 
+        {answer:answer.answer,
+          isSelected :true}: 
+         {answer :answer.answer,
+          isSelected :false}  
+        })
+      }
+      }else{
+        return domanda
+      }  
+    }))
   }
+
+ 
+  
 
   //Question component creation for each element inside the array 
   const questionComponent = questions.map(question=>{
@@ -54,18 +79,44 @@ export default function App(){
         key = {question.id}
         isHeld = {question.isHeld}
         id = {question.id}
-        handleChange = {handleChange}
+        setAnswer = {setAnswer}
+        correctAnswer = {question.correctAnswer}
+        selectedAnswer = {question.selectedAnswer}
+        checker = {checker}
     /> )
   })
+
+
+
+  function elaborateQuestions(){
+    setChecker(true)
+    let counter = 5
+    questions.map(risposta =>{
   
- 
+      if(risposta.selectedAnswer !== risposta.correctAnswer){
+        counter -= 1
+      }
+      
+    })
+    console.log(questionAnswered)
+
+    return setQuestionAnswered(counter)
+
+    
+    
+  }
+  
+  function gameOver(){window.location.reload()}
 
   return(
     <main>
       { !newGame ? <Home startGame={startGame}/>: 
-      <div className="trivia-wrapper">
+      <div className="trivia-wrapper" onSubmit={elaborateQuestions}>
         {questionComponent}
-        <button className="check-answers">Check answers</button>
+          <div>
+            {checker && <p className="result">Correct answers: {questionAnswered}/5</p>}
+            <button className="check-answers" onClick={checker? gameOver: elaborateQuestions}>{checker? "New Game" : "Check Answers"}</button>
+          </div>
       </div>}
     </main>
 
