@@ -3,7 +3,8 @@ import { nanoid } from 'nanoid'
 import Home from "./components/Home"
 import React from "react"
 import "./App.css"
-
+import blue from "./images/blobone.png"
+import yellow from "./images/yellow.png"
 export default function App(){
   //STATE INIZIALITATION
 
@@ -16,8 +17,7 @@ export default function App(){
   const startGame = () =>setNewGame(prevState=>!prevState)
   
 
-
-
+  
   React.useEffect(()=>{  //START USE EFFECT
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
     .then(res=>res.json())
@@ -34,7 +34,6 @@ export default function App(){
             {answer: question.incorrect_answers[1], isSelected: false},
             {answer: question.incorrect_answers[2], isSelected: false} 
           ].sort(()=> Math.random() -0.5),
-          isHeld : false,
           selectedAnswer: "",
           id: nanoid()
         }) 
@@ -45,7 +44,7 @@ export default function App(){
 
   },[]) //End useEffect S
 
-
+  
 
   function setAnswer(event){
     setQuestions(prevState => prevState.map(domanda=>{
@@ -93,14 +92,10 @@ export default function App(){
     setChecker(true)
     let counter = 5
     questions.map(risposta =>{
-  
       if(risposta.selectedAnswer !== risposta.correctAnswer){
         counter -= 1
-      }
-      
+      }    
     })
-    console.log(questionAnswered)
-
     return setQuestionAnswered(counter)
 
     
@@ -111,6 +106,7 @@ export default function App(){
 
   return(
     <main>
+      <img src={yellow} alt="blue blob" className="yellow-blob"/>
       { !newGame ? <Home startGame={startGame}/>: 
       <div className="trivia-wrapper" onSubmit={elaborateQuestions}>
         {questionComponent}
@@ -119,6 +115,7 @@ export default function App(){
             <button className="check-answers" onClick={checker? gameOver: elaborateQuestions}>{checker? "New Game" : "Check Answers"}</button>
           </div>
       </div>}
+      <img src={blue} alt="blue blob" className="blue-blob"/>
     </main>
 
   )
